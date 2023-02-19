@@ -1,0 +1,32 @@
+
+#include <MPU6050_tockn.h>
+#include <Wire.h>
+#include <SoftwareSerial.h>
+MPU6050 mpu6050(Wire);
+int RX_pin = 4;
+int TX_pin = 3;
+SoftwareSerial BTserial(RX_pin , TX_pin);
+String BT_data;
+String Arduino_data;
+
+
+
+void setup() {
+  Serial.begin(9600);
+  BTserial.begin(9600);
+  Wire.begin();
+  mpu6050.begin();
+  mpu6050.calcGyroOffsets(true);
+}
+
+void loop() {
+  mpu6050.update();
+  BTserial.println("temp : ");
+  BTserial.println(mpu6050.getTemp());
+  BTserial.println("angleX : ");
+  BTserial.println(mpu6050.getAngleX());
+  BTserial.println("\tangleY : ");
+  BTserial.println(mpu6050.getAngleY());
+  BTserial.println("\tangleZ : ");
+  BTserial.println(mpu6050.getAngleZ());
+}
